@@ -10,6 +10,5 @@ public class NewTaskTest {
         Assert.assertEquals("123", "123");
     }
 
-
 }
 
