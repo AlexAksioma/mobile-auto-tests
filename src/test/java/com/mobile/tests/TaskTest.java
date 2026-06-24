@@ -11,6 +11,9 @@ public class TaskTest {
         Assert.assertEquals("123", "123");
 
     }
-
+@Test
+    public void testTest(){
+       Assert.assertEquals("15","15");
+}
 
 }

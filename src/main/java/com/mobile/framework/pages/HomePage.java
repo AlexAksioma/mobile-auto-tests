@@ -4,7 +4,7 @@ import com.mobile.framework.core.BasePage;
 import com.mobile.framework.core.Locator;
 import com.mobile.framework.core.View;
 
-public class  nHomePage extends BasePage {
+public class  HomePage extends BasePage {
 
     public HomePage() {
         super(
