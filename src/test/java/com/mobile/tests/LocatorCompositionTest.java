@@ -6,7 +6,7 @@ import com.mobile.framework.core.View;
 import com.mobile.framework.pages.HomePage;
 import com.mobile.framework.pages.LoginPage;
 import org.testng.annotations.Test;
-
+import org.testng.Assert;
 import static org.testng.Assert.*;
 
 public class LocatorCompositionTest {
