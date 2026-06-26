@@ -33,4 +33,10 @@ public class TaskTest {
         boolean isDisplayed = true;
         Assert.assertTrue(isDisplayed);
     }
+
+    @Test
+    public void testStringStartsWithMobile() {
+        String text = "mobile automation tests";
+        Assert.assertTrue(text.startsWith("mobile"));
+    }
 }
