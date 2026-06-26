@@ -11,7 +11,10 @@ import static org.testng.Assert.*;
 
 public class LocatorCompositionTest {
 
-
+@Test
+public void testNewTask() {
+    Assert.assertEquals("123", "123");
+}
 
     @Test
     public void locatorResolvesAndroidWhenPlatformIsAndroid() {
