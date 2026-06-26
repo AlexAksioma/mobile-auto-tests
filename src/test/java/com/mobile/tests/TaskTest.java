@@ -1,3 +1,5 @@
+package com.mobile.tests;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,5 +13,24 @@ public class TaskTest {
     @Test
     public void myOwnTest() {
         Assert.assertTrue(5 > 3);
+    }
+
+    @Test
+    public void testStringContainsText() {
+        String text = "mobile automation tests";
+        Assert.assertTrue(text.contains("automation"));
+    }
+
+    @Test
+    public void testNumbersAreEqual() {
+        int actual = 10 + 5;
+        int expected = 15;
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testBooleanValue() {
+        boolean isDisplayed = true;
+        Assert.assertTrue(isDisplayed);
     }
 }
