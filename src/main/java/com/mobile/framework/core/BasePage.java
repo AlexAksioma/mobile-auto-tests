@@ -1,5 +1,8 @@
 package com.mobile.framework.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class BasePage {
 
     private final Locator rootLocator;
@@ -34,5 +37,20 @@ public abstract class BasePage {
         } catch (org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
+    }
+
+    protected List<View> views(String androidXpath, String iosXPath) {
+        Locator locator = Locator.of(androidXpath, iosXPath);
+
+        int countOfView = DriverHolder.driver()
+                .findElements(org.openqa.selenium.By.xpath(rootLocator.child(locator).xpath())).size();
+
+        List <View> listView = new ArrayList<>();
+        for (int i = 1; i <= countOfView; i++) {
+            listView.add(view("(" + androidXpath + ")[" + i + "]",
+                    "(" + iosXPath + ")[" + i + "]"));
+        }
+
+        return listView;
     }
 }
