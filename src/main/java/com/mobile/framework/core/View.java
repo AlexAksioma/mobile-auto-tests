@@ -2,9 +2,13 @@ package com.mobile.framework.core;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class View {
+
+    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
 
     private final Locator parentLocator;
     private final Locator ownLocator;
@@ -36,17 +40,20 @@ public class View {
 
 
     public void tap() {
-        WebElement el = DriverHolder.driver().findElement(by());
+        WebElement el = new WebDriverWait(DriverHolder.driver(), DEFAULT_TIMEOUT)
+                .until(ExpectedConditions.elementToBeClickable(by()));
         el.click();
     }
 
     public String text() {
-        WebElement el = DriverHolder.driver().findElement(by());
+        WebElement el = new WebDriverWait(DriverHolder.driver(), DEFAULT_TIMEOUT)
+                .until(ExpectedConditions.visibilityOfElementLocated(by()));
         return el.getText();
     }
 
     public void enterText(String text) {
-        WebElement el = DriverHolder.driver().findElement(by());
+        WebElement el = new WebDriverWait(DriverHolder.driver(), DEFAULT_TIMEOUT)
+                .until(ExpectedConditions.visibilityOfElementLocated(by()));
         el.clear();
         el.sendKeys(text);
     }
