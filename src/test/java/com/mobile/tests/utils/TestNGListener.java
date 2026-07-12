@@ -1,6 +1,5 @@
 package com.mobile.tests.utils;
-import com.mobile.framework.core.AdbManager;
-import io.appium.java_client.AppiumDriver;
+import com.mobile.framework.core.DeviceManagers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -50,17 +49,17 @@ public class TestNGListener implements ITestListener{
         logger.error("Exception:", result.getThrowable());
 
         try {
-            logger.error("========== LOGCAT ==========");
-            logger.error(AdbManager.getLogcat());
+            logger.error("========== DEVICE LOGS ==========");
+            logger.error(DeviceManagers.current().getLogs());
             logger.error("============================");
         } catch (Exception e) {
-            logger.warn("Failed to get logcat", e);
+            logger.warn("Failed to get device logs", e);
         }
 
         try {
-            String fName =  "adb_scrn" + System.currentTimeMillis();
-            AdbManager.takeScreenshot(fName);
-            logger.info("Screenshot saved to build/screenshorts/{}.png", fName);
+            String fName =  "device_scrn" + System.currentTimeMillis();
+            DeviceManagers.current().takeScreenshot(fName);
+            logger.info("Screenshot saved to build/screenshots/{}.png", fName);
         } catch (Exception e) {
             logger.warn("Failed to take screenshot", e);
         }
@@ -83,9 +82,9 @@ public class TestNGListener implements ITestListener{
                 result.getTestClass().getRealClass().getSimpleName());
 
         try {
-            AdbManager.clearLogcat();
+            DeviceManagers.current().clearLogs();
         } catch (Exception e) {
-            logger.warn("Failed to clear logcat: {}", e.getMessage());
+            logger.warn("Failed to clear device logs: {}", e.getMessage());
         }
 
     }
