@@ -39,18 +39,25 @@ public abstract class BasePage {
         }
     }
 
-    protected List<View> views(String androidXpath, String iosXPath) {
-        Locator locator = Locator.of(androidXpath, iosXPath);
+    protected List<View> views(String androidXPath, String iosXPath) {
+        Locator childLocator = Locator.of(androidXPath, iosXPath);
+        Locator resolvedLocator = rootLocator.child(childLocator);
 
-        int countOfView = DriverHolder.driver()
-                .findElements(org.openqa.selenium.By.xpath(rootLocator.child(locator).xpath())).size();
+        int countOfViews = DriverHolder.driver()
+                .findElements(org.openqa.selenium.By.xpath(resolvedLocator.xpath()))
+                .size();
 
-        List <View> listView = new ArrayList<>();
-        for (int i = 1; i <= countOfView; i++) {
-            listView.add(view("(" + androidXpath + ")[" + i + "]",
-                    "(" + iosXPath + ")[" + i + "]"));
+        List<View> views = new ArrayList<>();
+
+        for (int i = 1; i <= countOfViews; i++) {
+            Locator indexedLocator = Locator.of(
+                    "(" + resolvedLocator.androidXPath() + ")[" + i + "]",
+                    "(" + resolvedLocator.iosXPath() + ")[" + i + "]"
+            );
+
+            views.add(new View(Locator.same(""), indexedLocator));
         }
 
-        return listView;
+        return views;
     }
 }
