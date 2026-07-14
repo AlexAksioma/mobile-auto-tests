@@ -81,12 +81,6 @@ public class TestNGListener implements ITestListener{
                 result.getMethod().getMethodName(),
                 result.getTestClass().getRealClass().getSimpleName());
 
-        try {
-            DeviceManagers.current().clearLogs();
-        } catch (Exception e) {
-            logger.warn("Failed to clear device logs: {}", e.getMessage());
-        }
-
     }
 
     @Override

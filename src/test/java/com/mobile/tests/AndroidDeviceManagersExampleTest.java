@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @Listeners(TestNGListener.class)
 
-public class AndroidLogTest {
+public class AndroidDeviceManagersExampleTest{
 
     @BeforeMethod
     public void setupEnvironment() throws IOException, InterruptedException {
