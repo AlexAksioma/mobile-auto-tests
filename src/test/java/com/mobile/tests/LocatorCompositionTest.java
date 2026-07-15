@@ -5,13 +5,18 @@ import com.mobile.framework.core.Platform;
 import com.mobile.framework.core.View;
 import com.mobile.framework.pages.HomePage;
 import com.mobile.framework.pages.LoginPage;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
 public class LocatorCompositionTest {
 
-
+@Test
+public void testNewTask() {
+    Assert.assertEquals("123", "123");
+}
 
     @Test
     public void locatorResolvesAndroidWhenPlatformIsAndroid() {
@@ -151,5 +156,52 @@ public class LocatorCompositionTest {
         HomePage page = new HomePage();
         assertEquals(page.welcomeLabel().xpath(),
             "//*[@resource-id='home_screen']//*[@resource-id='welcome_text']");
+    }
+    @Test
+    public void homePageWelcomeLabelIos() {
+        Platform.setCurrent(Platform.IOS);
+        HomePage page = new HomePage();
+
+        assertEquals(page.welcomeLabel().xpath(),
+                "//*[@name='HomeViewController']//*[@name='welcome_label']");
+    }
+
+    @Test
+    public void loginPageLoginButtonAndroid() {
+        Platform.setCurrent(Platform.ANDROID);
+        LoginPage page = new LoginPage();
+
+        assertEquals(page.loginButton().xpath(),
+                "//*[@resource-id='login_screen']//*[@resource-id='login_button']");
+    }
+
+    @Test
+    public void viewChildComposesAndroidXpath() {
+        Platform.setCurrent(Platform.ANDROID);
+
+        Locator page = Locator.of("//*[@resource-id='settings_screen']", "//*[@name='SettingsVC']");
+        Locator menu = Locator.of("//*[@resource-id='menu']", "//*[@name='menu_view']");
+        Locator item = Locator.of("//*[@resource-id='logout']", "//*[@name='logout_button']");
+
+        View menuView = new View(page, menu);
+        View logoutButton = menuView.child(item);
+
+        assertEquals(logoutButton.xpath(),
+                "//*[@resource-id='settings_screen']//*[@resource-id='menu']//*[@resource-id='logout']");
+    }
+
+    @Test
+    public void viewChildComposesIosXpath() {
+        Platform.setCurrent(Platform.IOS);
+
+        Locator page = Locator.of("//*[@resource-id='settings_screen']", "//*[@name='SettingsVC']");
+        Locator menu = Locator.of("//*[@resource-id='menu']", "//*[@name='menu_view']");
+        Locator item = Locator.of("//*[@resource-id='logout']", "//*[@name='logout_button']");
+
+        View menuView = new View(page, menu);
+        View logoutButton = menuView.child(item);
+
+        assertEquals(logoutButton.xpath(),
+                "//*[@name='SettingsVC']//*[@name='menu_view']//*[@name='logout_button']");
     }
 }
