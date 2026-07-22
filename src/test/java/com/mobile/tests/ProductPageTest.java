@@ -36,6 +36,4 @@ public class ProductPageTest extends AndroidDriverBaseTest{
         List<View> productList = productsPage.listOfProducts();
         Assert.assertFalse(productList.isEmpty(), "List of products is empty");
     }
-
-
 }
