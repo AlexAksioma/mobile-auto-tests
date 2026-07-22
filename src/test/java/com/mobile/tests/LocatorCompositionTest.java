@@ -6,17 +6,22 @@ import com.mobile.framework.core.View;
 import com.mobile.framework.pages.HomePage;
 import com.mobile.framework.pages.LoginPage;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
 public class LocatorCompositionTest {
 
-@Test
-public void testNewTask() {
-    Assert.assertEquals("123", "123");
-}
+    @Test
+    public void loginPagePasswordInputIos() {
+        Platform.setCurrent(Platform.IOS);
+        LoginPage page = new LoginPage();
+
+        assertEquals(
+            page.passwordInput().xpath(),
+            "//*[@name='LoginViewController']//*[@name='password_textfield']"
+        );
+    }
 
     @Test
     public void locatorResolvesAndroidWhenPlatformIsAndroid() {
