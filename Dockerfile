@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN gradle test --no-daemon
+RUN gradle test --no-daemon --stacktrace --console=plain
 
-CMD ["gradle", "test", "--no-daemon"]
+CMD ["gradle", "test", "--no-daemon", "--rerun-tasks", "--stacktrace", "--console=plain"]
