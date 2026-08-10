@@ -28,6 +28,17 @@ tasks.test {
     useTestNG()
 }
 
+tasks.register<Test>("smokeTest") {
+    group = "verification"
+    description = "Runs the TestNG smoke test suite"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+
+    useTestNG {
+        suites("src/test/resources/suites/smoke.xml")
+    }
+}
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }

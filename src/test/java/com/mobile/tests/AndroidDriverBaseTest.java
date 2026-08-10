@@ -20,7 +20,7 @@ import java.io.IOException;
  * the common Android driver lifecycle.
  */
 public class AndroidDriverBaseTest {
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() throws IOException, InterruptedException {
         Platform.setCurrent(Platform.ANDROID);
         if(!DeviceManagers.current().isAppInstalled(MobileConfig.ANDROID_APP_PACKAGE)){

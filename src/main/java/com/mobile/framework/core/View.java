@@ -1,7 +1,12 @@
 package com.mobile.framework.core;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 public class View {
@@ -40,9 +45,17 @@ public class View {
         el.click();
     }
 
+    private WebElement waitUntilVisible() {
+        return new WebDriverWait(
+                DriverHolder.driver(),
+                Duration.ofSeconds(20)
+        )
+                .ignoring(StaleElementReferenceException.class)
+                .until(ExpectedConditions.visibilityOfElementLocated(by()));
+    }
+
     public String text() {
-        WebElement el = DriverHolder.driver().findElement(by());
-        return el.getText();
+        return waitUntilVisible().getText();
     }
 
     public void enterText(String text) {

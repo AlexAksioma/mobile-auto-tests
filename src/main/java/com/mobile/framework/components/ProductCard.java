@@ -2,34 +2,16 @@ package com.mobile.framework.components;
 
 import com.mobile.framework.core.Locator;
 import com.mobile.framework.core.View;
+import com.mobile.framework.pages.ProductDetailsPage;
 
-public final class ProductCard {
-
-    private final View root;
+/**
+ * Represents a product card in the catalog.
+ * Provides access to its rating and opens the product by tapping its image.
+ */
+public final class ProductCard extends ProductItem {
 
     public ProductCard(View root) {
-        this.root = root;
-    }
-
-    public View image() {
-        return root.child(Locator.of(
-                "//*[contains(@resource-id, 'id/productIV')]",
-                ""
-        ));
-    }
-
-    public View title() {
-        return root.child(Locator.of(
-                "//*[contains(@resource-id, 'id/titleTV')]",
-                ""
-        ));
-    }
-
-    public View price() {
-        return root.child(Locator.of(
-                "//*[contains(@resource-id, 'id/priceTV')]",
-                ""
-        ));
+        super(root);
     }
 
     public View rating() {
@@ -39,8 +21,31 @@ public final class ProductCard {
         ));
     }
 
+    private View ratingStar(int rating) {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException(
+                    "Rating must be between 1 and 5"
+            );
+        }
+
+        return root.child(Locator.of(
+                "//*[contains(@resource-id, 'id/start" + rating + "IV')]",
+                ""
+        ));
+    }
+
     public void tap() {
         image().tap();
+    }
+
+    public ProductDetailsPage openDetails() {
+        tap();
+        return new ProductDetailsPage();
+    }
+
+    public ReviewDialog rateProduct(int rating) {
+        ratingStar(rating).tap();
+        return new ReviewDialog();
     }
 }
     
