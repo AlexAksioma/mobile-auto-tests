@@ -9,6 +9,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Map;
 
+/**
+ * Provides reusable mobile gestures for page and component views.
+ */
 public final class Gestures {
 
     private Gestures() {
