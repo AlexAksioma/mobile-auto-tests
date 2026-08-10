@@ -24,9 +24,12 @@ public class ProductsPage extends BasePage {
         );
     }
 
-    private View catalog() {
+    /**
+     * Scrollable container that wraps the product catalog.
+     */
+    private View scrollView() {
         return view(
-                "//*[contains(@resource-id, 'id/productRV')]",
+                "//*[contains(@resource-id, 'id/scrollView')]",
                 ""
         );
     }
@@ -75,6 +78,6 @@ public class ProductsPage extends BasePage {
     }
 
     public void scrollDown() {
-        Gestures.scrollDown(catalog());
+        Gestures.scrollDown(scrollView());
     }
 }
