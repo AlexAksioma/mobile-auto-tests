@@ -49,7 +49,7 @@ public class CartPage extends BasePage {
     }
 
     public View title(){
-        return view("//*[contains(@recource-id, 'id/productTV')]",
+        return view("//*[contains(@resource-id, 'id/productTV')]",
                 "");
     }
 

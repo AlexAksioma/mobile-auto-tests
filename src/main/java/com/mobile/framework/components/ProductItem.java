@@ -35,4 +35,11 @@ public abstract class ProductItem {
                 ""
         ));
     }
+
+    public View rating() {
+        return root.child(Locator.of(
+                "//*[contains(@resource-id, 'id/rattingV')]",
+                ""
+        ));
+    }
 }

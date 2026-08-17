@@ -1,6 +1,7 @@
 package com.mobile.framework.pages;
 
 import com.mobile.framework.core.BasePage;
+import com.mobile.framework.core.Gestures;
 import com.mobile.framework.core.View;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ProductDetailsPage extends BasePage {
 
     public View rating() {
         return view(
-                "//*[contains(@resource-id, 'id/rattingV')]/*",
+                "//*[contains(@resource-id, 'id/rattingV')]",
                 ""
         );
     }
@@ -98,6 +99,20 @@ public class ProductDetailsPage extends BasePage {
 
     public void selectColor(int index) {
         colorOptions().get(index).tap();
+    }
+
+    /**
+     * Scrollable container that wraps the product details content.
+     */
+    private View scrollView() {
+        return view(
+                "//android.widget.ScrollView",
+                ""
+        );
+    }
+
+    public void scrollDown() {
+        Gestures.scrollDown(scrollView());
     }
 
 }

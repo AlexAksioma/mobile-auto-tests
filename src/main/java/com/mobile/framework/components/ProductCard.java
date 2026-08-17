@@ -14,13 +14,6 @@ public final class ProductCard extends ProductItem {
         super(root);
     }
 
-    public View rating() {
-        return root.child(Locator.of(
-                "//*[contains(@resource-id, 'id/rattingV')]",
-                ""
-        ));
-    }
-
     private View ratingStar(int rating) {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException(
@@ -33,6 +26,7 @@ public final class ProductCard extends ProductItem {
                 ""
         ));
     }
+
 
     public void tap() {
         image().tap();
