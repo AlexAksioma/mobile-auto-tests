@@ -26,7 +26,7 @@ public class ProductPageTest extends AndroidDriverBaseTest{
         softAssert = new SoftAssert();
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void productsPageAndCatalogAreDisplayed_Test(){
         List<String> visibleProductTitles =
                 productsPage.getVisibleProductTitles();
@@ -44,7 +44,7 @@ public class ProductPageTest extends AndroidDriverBaseTest{
         softAssert.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void productCardContainsBasicInformation_Test(){
         ProductCard product = productsPage.getFirstProduct();
         String title = product.title().text();
@@ -65,7 +65,7 @@ public class ProductPageTest extends AndroidDriverBaseTest{
         softAssert.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void productDetailsPageOpensWhenClickOnProductImage_Test(){
         ProductCard product = productsPage.getFirstProduct();
         String expectedTitle = product.title().text();
@@ -78,24 +78,27 @@ public class ProductPageTest extends AndroidDriverBaseTest{
                 "Product details page title does not match the selected product title");
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void productRatingCanBeSubmitted_Test(){
         ProductCard product = productsPage.getFirstProduct();
         ReviewDialog reviewDialog = product.rateProduct(5);
 
+        String message = reviewDialog.message().text();
+        reviewDialog.clickButtonContinue();
+
         Assert.assertEquals(
-                reviewDialog.message().text(),
+                message,
                 "Thank you for submitting your review!",
                 "Review confirmation message is incorrect"
         );
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void productsCatalogScrolls_Test(){
         List<String> visibleTitlesBeforeScroll =
                 productsPage.getVisibleProductTitles();
 
-        productsPage.scrollDown();
+        productsPage.scrollDownOneScreen();
 
         List<String> visibleTitlesAfterScroll =
                 productsPage.getVisibleProductTitles();
