@@ -1,15 +1,18 @@
 package com.mobile.tests;
 
 import com.mobile.framework.components.ProductCard;
+import com.mobile.framework.components.ReviewDialog;
 import com.mobile.framework.pages.ProductDetailsPage;
 import com.mobile.framework.pages.ProductsPage;
 import com.mobile.tests.utils.TestNGListener;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 @Listeners(TestNGListener.class)
+
 public class ProductDetailsTest extends AndroidDriverBaseTest {
 
     private ProductsPage productsPage;
@@ -21,7 +24,7 @@ public class ProductDetailsTest extends AndroidDriverBaseTest {
         softAssert = new SoftAssert();
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void productDetailsPageContainsAllElements_Test(){
         ProductCard product = productsPage.getFirstProduct();
         ProductDetailsPage productDetailsPage = product.openDetails();
@@ -29,7 +32,7 @@ public class ProductDetailsTest extends AndroidDriverBaseTest {
         softAssert.assertTrue(productDetailsPage.title().isDisplayed(),
                 "Product title is not displayed");
 
-        productDetailsPage.scrollDown();
+        productDetailsPage.scrollDownOneScreen();
 
         softAssert.assertTrue(productDetailsPage.price().isDisplayed(),
                 "Product price is not displayed");
@@ -61,5 +64,78 @@ public class ProductDetailsTest extends AndroidDriverBaseTest {
         softAssert.assertAll();
     }
 
+    @Test
+    public void productColorCanBeChanged_Test(){
+        ProductCard product = productsPage.getFirstProduct();
+        ProductDetailsPage productDetailsPage = product.openDetails();
+        productDetailsPage.scrollDownOneScreen();
 
+        int colorsCount = productDetailsPage.colorOptions().size();
+
+        softAssert.assertTrue(colorsCount > 1,
+                "Not enough color options to test switching");
+
+        int otherColorIndex = 1;
+        productDetailsPage.selectColor(otherColorIndex);
+
+        softAssert.assertTrue(productDetailsPage.isColorSelected(otherColorIndex),
+                "Selected color indicator is not shown for the chosen color");
+
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void productQuantityCanBeChanged_Test(){
+        ProductCard product = productsPage.getFirstProduct();
+        ProductDetailsPage productDetailsPage = product.openDetails();
+        productDetailsPage.scrollDownOneScreen();
+
+        int initialQuantity = productDetailsPage.getQuantity();
+
+        productDetailsPage.increaseQuantity();
+        int increasedQuantity = productDetailsPage.getQuantity();
+
+        softAssert.assertEquals(increasedQuantity, initialQuantity + 1,
+                "Quantity did not increase by 1");
+
+        productDetailsPage.decreaseQuantity();
+        int decreasedQuantity = productDetailsPage.getQuantity();
+
+        softAssert.assertEquals(decreasedQuantity, initialQuantity,
+                "Quantity did not decrease back to initial value");
+
+        productDetailsPage.decreaseQuantity();
+        int zeroQuantity = productDetailsPage.getQuantity();
+
+        softAssert.assertEquals(zeroQuantity, 0,
+                "Quantity did not decrease to 0");
+
+        softAssert.assertFalse(productDetailsPage.addToCartButton().isEnabled(),
+                "Add to cart button is enabled when quantity is 0");
+
+        productDetailsPage.increaseQuantity();
+
+        softAssert.assertTrue(productDetailsPage.addToCartButton().isEnabled(),
+                "Add to cart button is not enabled when quantity is greater than 0");
+
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void productRatingCanBeSubmitted_Test(){
+        ProductCard product = productsPage.getFirstProduct();
+        ProductDetailsPage productDetailsPage = product.openDetails();
+        productDetailsPage.scrollDownOneScreen();
+
+        ReviewDialog reviewDialog = productDetailsPage.selectRating(5);
+
+        String message = reviewDialog.message().text();
+        reviewDialog.clickButtonContinue();
+
+        Assert.assertEquals(
+                message,
+                "Thank you for submitting your review!",
+                "Review confirmation message is incorrect"
+        );
+    }
 }

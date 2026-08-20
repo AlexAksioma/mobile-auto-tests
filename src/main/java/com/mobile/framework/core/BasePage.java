@@ -31,6 +31,24 @@ public abstract class BasePage {
         return rootLocator.xpath();
     }
 
+    protected View scrollView() {
+        throw new UnsupportedOperationException(
+                "This page does not support scrolling"
+        );
+    }
+
+    protected void scroll(ScrollDirection direction, double percent) {
+        Gestures.scroll(scrollView(), direction, percent);
+    }
+
+    public void scrollDownOneScreen() {
+        scroll(ScrollDirection.DOWN, 1.0);
+    }
+
+    public void scrollUpOneScreen() {
+        scroll(ScrollDirection.UP, 1.0);
+    }
+
     public boolean isDisplayed() {
         try {
             return DriverHolder.driver().findElement(org.openqa.selenium.By.xpath(rootXPath())).isDisplayed();

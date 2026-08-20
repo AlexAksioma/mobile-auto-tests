@@ -1,7 +1,6 @@
 package com.mobile.framework.pages;
 import com.mobile.framework.components.ProductCard;
 import com.mobile.framework.core.BasePage;
-import com.mobile.framework.core.Gestures;
 import com.mobile.framework.core.View;
 
 import java.util.ArrayList;
@@ -27,7 +26,8 @@ public class ProductsPage extends BasePage {
     /**
      * Scrollable container that wraps the product catalog.
      */
-    private View scrollView() {
+    @Override
+    protected View scrollView() {
         return view(
                 "//*[contains(@resource-id, 'id/scrollView')]",
                 ""
@@ -75,9 +75,5 @@ public class ProductsPage extends BasePage {
 
     public ProductCard getFirstProduct() {
         return new ProductCard(firstProduct());
-    }
-
-    public void scrollDown() {
-        Gestures.scrollDown(scrollView());
     }
 }

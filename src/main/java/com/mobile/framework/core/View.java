@@ -72,6 +72,10 @@ public class View {
         }
     }
 
+    public boolean isEnabled() {
+        return DriverHolder.driver().findElement(by()).isEnabled();
+    }
+
     public boolean exists() {
         return !DriverHolder.driver().findElements(by()).isEmpty();
     }

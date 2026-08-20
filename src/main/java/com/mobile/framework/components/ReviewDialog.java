@@ -22,14 +22,14 @@ public final class ReviewDialog extends BasePage {
         );
     }
 
-    public View closeButton() {
+    public View btnContinue() {
         return view(
                 "//*[contains(@resource-id, 'id/closeBt')]",
                 ""
         );
     }
 
-    public void close() {
-        closeButton().tap();
+    public void clickButtonContinue() {
+        btnContinue().tap();
     }
 }

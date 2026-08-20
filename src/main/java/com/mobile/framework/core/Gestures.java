@@ -17,7 +17,13 @@ public final class Gestures {
     private Gestures() {
     }
 
-    public static void scrollDown(View scrollableView) {
+    public static void scroll(View scrollableView, ScrollDirection direction, double percent) {
+        if (percent <= 0 || percent > 1) {
+            throw new IllegalArgumentException(
+                    "percent must be between 0 (exclusive) and 1 (inclusive), was " + percent
+            );
+        }
+
         WebElement element = new WebDriverWait(
                 DriverHolder.driver(),
                 Duration.ofSeconds(20)
@@ -31,15 +37,15 @@ public final class Gestures {
                 "mobile: scrollGesture",
                 Map.of(
                         "elementId", ((RemoteWebElement) element).getId(),
-                        "direction", "down",
-                        "percent", 0.75
+                        "direction", direction.value(),
+                        "percent", percent
                 )
         );
     }
 
-    public static void scrollDownIos(View scrollableView) {
+    public static void scrollIos(View scrollableView, ScrollDirection direction, double percent) {
         throw new UnsupportedOperationException(
-                "Scroll down gesture is not implemented for iOS"
+                "Scroll gesture is not implemented for iOS"
         );
     }
 }

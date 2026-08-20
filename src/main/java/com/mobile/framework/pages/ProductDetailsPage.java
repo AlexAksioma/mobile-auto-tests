@@ -1,7 +1,8 @@
 package com.mobile.framework.pages;
 
+import com.mobile.framework.components.ReviewDialog;
 import com.mobile.framework.core.BasePage;
-import com.mobile.framework.core.Gestures;
+import com.mobile.framework.core.Locator;
 import com.mobile.framework.core.View;
 
 import java.util.List;
@@ -36,6 +37,24 @@ public class ProductDetailsPage extends BasePage {
         );
     }
 
+    public View ratingStar(int rating) {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException(
+                    "Rating must be between 1 and 5"
+            );
+        }
+
+        return view(
+                "//*[contains(@resource-id, 'id/start" + rating + "IV')]",
+                ""
+        );
+    }
+
+    public ReviewDialog selectRating(int rating) {
+        ratingStar(rating).tap();
+        return new ReviewDialog();
+    }
+
     public List<View> colorOptions() {
         return views(
                 "//*[contains(@resource-id, 'id/colorRV')]/*",
@@ -55,6 +74,10 @@ public class ProductDetailsPage extends BasePage {
                 "//*[contains(@resource-id, 'id/noTV')]",
                 ""
         );
+    }
+
+    public int getQuantity() {
+        return Integer.parseInt(quantity().text());
     }
 
     public View increaseQuantityButton() {
@@ -102,17 +125,26 @@ public class ProductDetailsPage extends BasePage {
     }
 
     /**
+     * "aroundIV" only exists next to the currently selected color option.
+     */
+    public boolean isColorSelected(int index) {
+        View colorOption = colorOptions().get(index);
+
+        return colorOption.child(Locator.of(
+                "//*[contains(@resource-id, 'id/aroundIV')]",
+                ""
+        )).exists();
+    }
+
+    /**
      * Scrollable container that wraps the product details content.
      */
-    private View scrollView() {
+    @Override
+    protected View scrollView() {
         return view(
                 "//android.widget.ScrollView",
                 ""
         );
-    }
-
-    public void scrollDown() {
-        Gestures.scrollDown(scrollView());
     }
 
 }
